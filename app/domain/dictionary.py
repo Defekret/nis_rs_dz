@@ -25,7 +25,7 @@ class Dictionary:
     @staticmethod
     def _validate_name(name: str) -> str:
         if not name or not name.strip():
-            raise ValueError("Dictionary name cannot be empty")
+            raise ValueError("Dictionary name is required")
         return name.strip()
 
     @staticmethod
