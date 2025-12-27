@@ -1,0 +1,16 @@
+graph TB
+    subgraph "Пользователь"
+        User[Пользователь<br/>Изучает языки,<br/>создаёт словари]
+    end
+
+    subgraph "Personal Dictionary Library System"
+        WebApp[FastAPI Application<br/>Python, FastAPI<br/>REST API для управления<br/>словарями и записями]
+        DB[База данных<br/>SQLite<br/>Хранит словари,<br/>записи, статистику]
+    end
+
+    User -->|HTTP/REST<br/>API запросы| WebApp
+    WebApp -->|SQLAlchemy ORM<br/>Читает/Записывает| DB
+
+    style User fill:#08427b
+    style WebApp fill:#1168bd
+    style DB fill:#438dd5

@@ -1,0 +1,57 @@
+graph TB
+    subgraph "API Layer"
+        DictionaryRouter["DictionaryRouter<br/>(FastAPI Router)"]
+        EntryRouter["EntryRouter<br/>(FastAPI Router)"]
+        DictionarySchemas["DictionaryCreate<br/>DictionaryResponse<br/>(Pydantic)"]
+        EntrySchemas["EntryCreate<br/>EntryResponse<br/>(Pydantic)"]
+    end
+
+    subgraph "Service Layer"
+        DictionaryService["DictionaryService<br/>(Business Logic)"]
+        EntryService["EntryService<br/>(Business Logic)"]
+    end
+
+    subgraph "Domain Layer"
+        Dictionary["Dictionary<br/>(Domain Model)"]
+        Entry["Entry<br/>(Domain Model)"]
+    end
+
+    subgraph "Infrastructure Layer"
+        DictionaryRepo["DictionaryRepository<br/>(Data Access)"]
+        EntryRepo["EntryRepository<br/>(Data Access)"]
+        DictionaryORM["DictionaryORM<br/>(SQLAlchemy)"]
+        EntryORM["EntryORM<br/>(SQLAlchemy)"]
+        Database[("SQLite<br/>Database")]
+    end
+
+    %% Dictionary Flow
+    DictionaryRouter --> DictionarySchemas
+    DictionaryRouter --> DictionaryService
+    DictionaryService --> Dictionary
+    DictionaryService --> DictionaryRepo
+    DictionaryRepo --> Dictionary
+    DictionaryRepo --> DictionaryORM
+    DictionaryORM --> Database
+
+    %% Entry Flow
+    EntryRouter --> EntrySchemas
+    EntryRouter --> EntryService
+    EntryService --> Entry
+    EntryService --> EntryRepo
+    EntryRepo --> Entry
+    EntryRepo --> EntryORM
+    EntryORM --> Database
+
+    %% Relationship между Dictionary и Entry
+    Entry -.belongs to.-> Dictionary
+    EntryORM -.foreign key.-> DictionaryORM
+
+    style DictionaryRouter fill:#e1f5ff
+    style EntryRouter fill:#e1f5ff
+    style DictionaryService fill:#fff4e1
+    style EntryService fill:#fff4e1
+    style Dictionary fill:#f0f0f0
+    style Entry fill:#f0f0f0
+    style DictionaryRepo fill:#e8f5e9
+    style EntryRepo fill:#e8f5e9
+    style Database fill:#ffebee
